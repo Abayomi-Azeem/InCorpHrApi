@@ -99,8 +99,8 @@ namespace InCorpApp.Application.BackgroundServices
                 //user did not apply for job
                 return applicant;
             }
-            var userCv = _s3Manager.GetFile(applicant.Email, Contracts.Shared.UploadFile.UploadedFileCat.CV);
-            var tags = JsonConvert.DeserializeObject<CVScan>(currentStage.StageInfo);
+            //var userCv = _s3Manager.GetFile(applicant.Email, Contracts.Shared.UploadFile.UploadedFileCat.CV);
+            //var tags = JsonConvert.DeserializeObject<CVScan>(currentStage.StageInfo);
             throw new NotImplementedException();
 
 
