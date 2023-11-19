@@ -101,7 +101,7 @@ namespace InCorpApp.Application.BackgroundServices
             }
             var userCv = _s3Manager.GetFile(applicant.Email, Contracts.Shared.UploadFile.UploadedFileCat.CV);
             var tags = JsonConvert.DeserializeObject<CVScan>(currentStage.StageInfo);
-
+            throw new NotImplementedException();
 
 
 
