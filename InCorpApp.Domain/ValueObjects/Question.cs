@@ -10,7 +10,7 @@ namespace InCorpApp.Domain.ValueObjects
     {
         public string QuestionValue { get; set; }
         public int QuestionId { get; set; }
-        public IEnumerable<Option> Options { get; set; }
+        public List<Option> Options { get; set; }
         public int CorrectOptionId { get; set; }
 
         public void SetCorrectOptionToZero()

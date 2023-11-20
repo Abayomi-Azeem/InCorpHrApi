@@ -74,6 +74,7 @@ namespace InCorpApp.Application.UseCases.Recruiter
                     try
                     {
                         var serialized = JsonConvert.DeserializeObject<CVScan>(stage.StageProperties);
+                        response = true;
                     }
                     catch (Exception ex)
                     {
@@ -85,6 +86,7 @@ namespace InCorpApp.Application.UseCases.Recruiter
                     try
                     {
                         var serialized = JsonConvert.DeserializeObject<PersonalityTest>(stage.StageProperties);
+                        response = true;
                     }
                     catch (Exception ex)
                     {
@@ -96,6 +98,7 @@ namespace InCorpApp.Application.UseCases.Recruiter
                     try
                     {
                         var serialized = JsonConvert.DeserializeObject<TechnicalTest>(stage.StageProperties);
+                        response = true;
                     }
                     catch (Exception ex)
                     {

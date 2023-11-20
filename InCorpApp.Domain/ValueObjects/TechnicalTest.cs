@@ -9,7 +9,7 @@ namespace InCorpApp.Domain.ValueObjects
     public class TechnicalTest
     {
         public TimeSpan TestDuration { get; set; }
-        public IEnumerable<Question> Questions { get; set; }
+        public List<Question> Questions { get; set; }
         public int PassMark { get; set; }
     }
 }

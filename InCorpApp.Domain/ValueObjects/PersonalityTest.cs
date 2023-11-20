@@ -11,7 +11,7 @@ namespace InCorpApp.Domain.ValueObjects
     {
         public TimeSpan TestDuration { get; set; }
         
-        public IEnumerable<PersonalityTypes> PreferredPersonalityTypes { get; set; }
+        public List<PersonalityTypes> PreferredPersonalityTypes { get; set; }
 
     }
 }
