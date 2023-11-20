@@ -25,7 +25,8 @@ namespace InCorpApp.Application
                 q.AddTrigger(opts => opts
                     .ForJob(jobKey)
                     .WithIdentity("ComputeJOb-trigger")
-                    .WithCronSchedule("5 12 * * *"));
+                    .WithCronSchedule("0 0 1 * * ?"));
+                    //.WithCronSchedule("0 0/2 * * * ?"));
             });
 
             services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);

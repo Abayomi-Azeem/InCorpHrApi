@@ -16,6 +16,7 @@ using InCorpApp.Application.Abstractions.Notification;
 using Microsoft.Extensions.Logging;
 using InCorpApp.Contracts.Common;
 using InCorpApp.Application.Abstractions.AWS;
+using InCorpApp.Application.Utilities;
 
 namespace InCorpApp.Application.BackgroundServices
 {
@@ -52,6 +53,10 @@ namespace InCorpApp.Application.BackgroundServices
                 {
                     continue;
                 }
+                if (expiredJob.Stages.Count <= 0)
+                {
+                    continue;
+                }
 
                 var expiredJobStage = expiredJob.Stages.Where(x => x.StageNumber == expiredJob.CurrentJobStage).First();
                 if (expiredJob.ExhaustedNoOfDaysInStage(expiredJobStage.StageNumber))
@@ -77,7 +82,7 @@ namespace InCorpApp.Application.BackgroundServices
                     Stage currentStage = expiredJob.Stages.Where(x => x.StageNumber == currentJobStage).First();
                     var computedJob = currentStage.StageType switch
                     {
-                        StageType.CV => ComputeCVTest(applicant,expiredJob, currentStage),
+                        StageType.CV =>await ComputeCVTest(applicant,expiredJob, currentStage),
                         StageType.PersonalityTest => ComputePersonalityTest(applicant,expiredJob, currentStage),
                         StageType.TechnicalTest => ComputeTechnicalTest(applicant, expiredJob,currentStage),
                         StageType.Interview => throw new NotImplementedException(),
@@ -91,7 +96,7 @@ namespace InCorpApp.Application.BackgroundServices
             }
         }
 
-        public User ComputeCVTest(User applicant, Job job, Stage currentStage)
+        public async Task<User> ComputeCVTest(User applicant, Job job, Stage currentStage)
         {
             var applicantJob = applicant.JobsApplied.Where(x => x.JobId == job.Id && x.CurrentStageInJob == job.CurrentJobStage).FirstOrDefault();
             if (applicantJob is null)
@@ -99,11 +104,20 @@ namespace InCorpApp.Application.BackgroundServices
                 //user did not apply for job
                 return applicant;
             }
-            //var userCv = _s3Manager.GetFile(applicant.Email, Contracts.Shared.UploadFile.UploadedFileCat.CV);
-            //var tags = JsonConvert.DeserializeObject<CVScan>(currentStage.StageInfo);
-            throw new NotImplementedException();
+            var userCv = await _s3Manager.GetFile(applicant.Email, Contracts.Shared.UploadFile.UploadedFileCat.CV);
+            var tags = JsonConvert.DeserializeObject<CVScan>(currentStage.StageInfo);
 
+            var cvStagePassed = ResumeScanner.ParseResume(userCv.ResponseStream, tags.Keywords, tags.ExperienceLevel, tags.YearOfExperience);
 
+            if (cvStagePassed)
+            {
+                applicantJob.UpdateStage();
+                var nextLoginDate = job.GetStageEndDate(currentStage.Id).ToShortDateString();
+                _emailService.SendSuccessEmail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString(), nextLoginDate);
+
+            }
+            _emailService.SendFailureMail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString());
+            return applicant;
 
         }
 

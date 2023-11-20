@@ -51,6 +51,10 @@ namespace InCorpApp.Application.UseCases.Applicant
             {
                 return ResponseBuilder.Build<ApplyJobResponse>(hasError: true, statusCode: System.Net.HttpStatusCode.BadRequest, actionMessage: ResponseMessages.JOB_NOTFOUND);
             }
+            if (job.ExpirationDate < DateOnly.FromDateTime(new DateTimeProvider().CurrentDateTime().Date))
+            {
+                return ResponseBuilder.Build<ApplyJobResponse>(hasError: true, statusCode: System.Net.HttpStatusCode.BadRequest, actionMessage: ResponseMessages.JOB_EXPIRED);
+            }
             var appliedJob = AppliedJob.Create(request, job);
             user.ApplicantApplyJob(appliedJob);
             jobPoster.RecruiterApplyJob(request.JobId, user.Email);
