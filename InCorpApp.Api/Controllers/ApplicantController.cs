@@ -46,7 +46,13 @@ namespace InCorpApp.Api.Controllers
             return StatusCode((int)response.HttpStatusCode, response);
         }
 
+
         //applyjob
+        /// <summary>
+        /// Apply for A Job
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("apply-job")]
         public async Task<IActionResult> ApplyJob(ApplyJobRequest request)
@@ -58,6 +64,11 @@ namespace InCorpApp.Api.Controllers
             return StatusCode((int)response.HttpStatusCode, response);
         }
 
+
+        /// <summary>
+        /// Get All ACtive Jobs
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("active-jobs")]
         [ProducesResponseType(typeof(ResponseWrapper<List<GetActiveJobsResponse>>), 200)]
@@ -70,6 +81,12 @@ namespace InCorpApp.Api.Controllers
             return StatusCode((int)response.HttpStatusCode, response);
         }
 
+
+        /// <summary>
+        /// Get Test Questions
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("get-test-questions")]
         [ProducesResponseType(typeof(ResponseWrapper<GetTestQuestionsResponse>),200)]
@@ -79,6 +96,12 @@ namespace InCorpApp.Api.Controllers
             return StatusCode((int)response.HttpStatusCode, response);
         }
 
+
+        /// <summary>
+        /// Submit Answers to Test
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("submit-test")]
         public async Task<IActionResult> SubmitTest(SubmitTestRequest request)

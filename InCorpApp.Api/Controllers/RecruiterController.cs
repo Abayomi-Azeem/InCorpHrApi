@@ -41,6 +41,12 @@ namespace InCorpApp.Api.Controllers
             return StatusCode((int)response.HttpStatusCode, response);
         }
 
+
+        /// <summary>
+        /// Create a Job, Complete with all Stages
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Create-Job")]
         public async Task<IActionResult> CreateJob(CreateJobRequest request)
