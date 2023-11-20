@@ -24,5 +24,6 @@ namespace InCorpApp.Contracts.Applicant.GetActiveJobs
         public List<string> JobBenefits { get; set; }
         public string Requirements { get; set; }
         public string Status { get; set; }
+        public string JobPosterEmail { get; set; }
     }
 }

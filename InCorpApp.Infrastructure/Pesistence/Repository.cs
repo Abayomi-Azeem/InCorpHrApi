@@ -5,6 +5,7 @@ using InCorpApp.Application.Abstractions.Persistence;
 using InCorpApp.Application.Utilities;
 using InCorpApp.Contracts.Admin.GetUnverifiedRecruiters;
 using InCorpApp.Contracts.Admin.GetUser;
+using InCorpApp.Contracts.Applicant.GetActiveJobs;
 using InCorpApp.Contracts.Common;
 using InCorpApp.Contracts.Enums;
 using InCorpApp.Domain.Dtos;
@@ -250,11 +251,11 @@ namespace InCorpApp.Infrastructure.Pesistence
             }
         }
     
-        public async Task<IEnumerable<Job>> GetAllUnExpiredJobs()
+        public async Task<IEnumerable<GetActiveJobsResponse>> GetAllUnExpiredJobs()
         {
             try
             {
-                var jobs = new List<Job>();
+                var jobs = new List<GetActiveJobsResponse>();
                 string selectQuery = $"Select * FROM {_tableName} WHERE Role=2";
 
                 var request = new ExecuteStatementRequest
@@ -277,8 +278,9 @@ namespace InCorpApp.Infrastructure.Pesistence
                         foreach (var job in itemAsJson.JobsCreated)
                         {
                             if (job.ExpirationDate > currentDate && job.Status == JobStatus.Active.ToString())
-                            {                                
-                                jobs.Add(job);
+                            {
+                                var activeJob = job.ToGetActiveJobs(itemAsJson.Email);
+                                jobs.Add(activeJob);
                             }
                         }
                     }

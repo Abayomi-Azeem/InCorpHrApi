@@ -41,8 +41,7 @@ namespace InCorpApp.Application.UseCases.Applicant
             }
 
             var jobs = await _repository.GetAllUnExpiredJobs();
-            var response = jobs.ToList().ToGetActiveJobs();
-            return ResponseBuilder.Build<List<GetActiveJobsResponse>>(response);
+            return ResponseBuilder.Build<List<GetActiveJobsResponse>>(jobs.ToList());
         }
     }
 }

@@ -93,12 +93,9 @@ namespace InCorpApp.Application.Utilities
             return response;
         }
 
-        public static List<GetActiveJobsResponse> ToGetActiveJobs(this List<Job> jobs)
+        public static GetActiveJobsResponse ToGetActiveJobs(this Job job, string jobPosterEmail)
         {
-            List<GetActiveJobsResponse> response = new();
-            foreach (var job in jobs)
-            {
-                var jobResponse = new GetActiveJobsResponse()
+                var response = new GetActiveJobsResponse()
                 {
                     Id = job.Id,
                     Description = job.Description,
@@ -113,10 +110,9 @@ namespace InCorpApp.Application.Utilities
                     JobType = job.JobType.ToString(),
                     JobBenefits = job.JobBenefits,
                     Requirements = job.Requirements,
-                    Status = job.Status
+                    Status = job.Status,
+                    JobPosterEmail = jobPosterEmail
                 };
-                response.Add(jobResponse);
-            }
             return response;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using InCorpApp.Contracts.Admin.GetUnverifiedRecruiters;
 using InCorpApp.Contracts.Admin.GetUser;
+using InCorpApp.Contracts.Applicant.GetActiveJobs;
 using InCorpApp.Domain.Dtos;
 using InCorpApp.Domain.Entities;
 using System;
@@ -19,6 +20,6 @@ namespace InCorpApp.Application.Abstractions.Persistence
         Task<IEnumerable<GetUserResponse>> GetUsers(SearchUserBy searchUserBy, string value);
         Task<bool> UpdateAsync(User user);
         Task<IEnumerable<UserExpiredJobs>> GetRecruitersWithExpiredJobs();
-        Task<IEnumerable<Job>> GetAllUnExpiredJobs();
+        Task<IEnumerable<GetActiveJobsResponse>> GetAllUnExpiredJobs();
     }
 }
