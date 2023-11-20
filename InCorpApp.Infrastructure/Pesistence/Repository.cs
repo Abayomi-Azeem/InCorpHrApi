@@ -279,7 +279,7 @@ namespace InCorpApp.Infrastructure.Pesistence
                         {
                             if (job.ExpirationDate > currentDate && job.Status == JobStatus.Active.ToString())
                             {
-                                var activeJob = job.ToGetActiveJobs(itemAsJson.Email);
+                                var activeJob = job.ToGetActiveJobs(itemAsJson.Email, itemAsJson.CompanyAddress);
                                 jobs.Add(activeJob);
                             }
                         }

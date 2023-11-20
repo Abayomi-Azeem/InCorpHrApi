@@ -93,7 +93,7 @@ namespace InCorpApp.Application.Utilities
             return response;
         }
 
-        public static GetActiveJobsResponse ToGetActiveJobs(this Job job, string jobPosterEmail)
+        public static GetActiveJobsResponse ToGetActiveJobs(this Job job, string jobPosterEmail, string? companyName)
         {
                 var response = new GetActiveJobsResponse()
                 {
@@ -111,7 +111,8 @@ namespace InCorpApp.Application.Utilities
                     JobBenefits = job.JobBenefits,
                     Requirements = job.Requirements,
                     Status = job.Status,
-                    JobPosterEmail = jobPosterEmail
+                    JobPosterEmail = jobPosterEmail,
+                    CompanyName = companyName
                 };
             return response;
         }
