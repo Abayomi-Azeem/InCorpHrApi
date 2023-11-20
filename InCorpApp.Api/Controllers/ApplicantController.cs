@@ -3,6 +3,7 @@ using InCorpApp.Application.Utilities;
 using InCorpApp.Contracts.Admin.GetUnverifiedRecruiters;
 using InCorpApp.Contracts.Applicant.ApplyJob;
 using InCorpApp.Contracts.Applicant.CreateProfile;
+using InCorpApp.Contracts.Applicant.GetActiveJobs;
 using InCorpApp.Contracts.Applicant.GetTestQuestions;
 using InCorpApp.Contracts.Applicant.SubmitTest;
 using MediatR;
@@ -51,6 +52,18 @@ namespace InCorpApp.Api.Controllers
         public async Task<IActionResult> ApplyJob(ApplyJobRequest request)
         {
             var claims = User.Claims;
+            var signedInUserEmail = User.Claims.FirstOrDefault(x => x.Type == "Email").Value;
+            request.SignedInEmail = signedInUserEmail;
+            var response = await _sender.Send(request);
+            return StatusCode((int)response.HttpStatusCode, response);
+        }
+
+        [HttpGet]
+        [Route("active-jobs")]
+        [ProducesResponseType(typeof(ResponseWrapper<List<GetActiveJobsResponse>>), 200)]
+        public async Task<IActionResult> GetActiveJobs()
+        {
+            var request = new GetActiveJobsRequest();
             var signedInUserEmail = User.Claims.FirstOrDefault(x => x.Type == "Email").Value;
             request.SignedInEmail = signedInUserEmail;
             var response = await _sender.Send(request);

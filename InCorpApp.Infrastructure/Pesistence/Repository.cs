@@ -249,5 +249,47 @@ namespace InCorpApp.Infrastructure.Pesistence
                 throw;
             }
         }
+    
+        public async Task<IEnumerable<Job>> GetAllUnExpiredJobs()
+        {
+            try
+            {
+                var jobs = new List<Job>();
+                string selectQuery = $"Select * FROM {_tableName} WHERE Role=2";
+
+                var request = new ExecuteStatementRequest
+                {
+                    Statement = selectQuery,
+                };
+                var currentDate = DateOnly.FromDateTime(new DateTimeProvider().CurrentDateTime().Date);
+
+                var response = await _context.ExecuteStatementAsync(request);
+                foreach (var item in response.Items)
+                {
+                    var itemsAsDocument = Document.FromAttributeMap(item);
+                    var itemAsJson = JsonConvert.DeserializeObject<User>(itemsAsDocument.ToJson());
+                    if (itemAsJson is null)
+                    {
+                        continue;
+                    }
+                    if (itemAsJson.JobsCreated is not null)
+                    {
+                        foreach (var job in itemAsJson.JobsCreated)
+                        {
+                            if (job.ExpirationDate > currentDate && job.Status == JobStatus.Active.ToString())
+                            {                                
+                                jobs.Add(job);
+                            }
+                        }
+                    }
+                }
+                return jobs;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(ex));
+                throw;
+            }
+        }
     }
 }

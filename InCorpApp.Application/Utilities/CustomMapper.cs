@@ -1,5 +1,6 @@
 ﻿using InCorpApp.Contracts.Admin.GetUnverifiedRecruiters;
 using InCorpApp.Contracts.Admin.GetUser;
+using InCorpApp.Contracts.Applicant.GetActiveJobs;
 using InCorpApp.Contracts.Applicant.GetTestQuestions;
 using InCorpApp.Contracts.Authentication.Login;
 using InCorpApp.Domain.Entities;
@@ -89,6 +90,33 @@ namespace InCorpApp.Application.Utilities
                 StageInfo = stage.StageInfo,
                 StageType = stage.StageType
             };
+            return response;
+        }
+
+        public static List<GetActiveJobsResponse> ToGetActiveJobs(this List<Job> jobs)
+        {
+            List<GetActiveJobsResponse> response = new();
+            foreach (var job in jobs)
+            {
+                var jobResponse = new GetActiveJobsResponse()
+                {
+                    Id = job.Id,
+                    Description = job.Description,
+                    Title = job.Title,
+                    Tags = job.Tags,
+                    Role = job.Role,
+                    MinSalary = job.MinSalary,
+                    MaxSalary = job.MaxSalary,
+                    SalaryStructure = job.SalaryStructure.ToString(),
+                    ExpirationDate = job.ExpirationDate,
+                    Country = job.Country,
+                    JobType = job.JobType.ToString(),
+                    JobBenefits = job.JobBenefits,
+                    Requirements = job.Requirements,
+                    Status = job.Status
+                };
+                response.Add(jobResponse);
+            }
             return response;
         }
     }
