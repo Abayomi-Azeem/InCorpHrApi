@@ -16,7 +16,7 @@ namespace InCorpApp.Domain.ValueObjects
         {
             JobPosterEmail = request.JobPosterEmail;
             JobId = request.JobId;
-            CurrentStageInJob = 1;
+            CurrentStageInJob = 0;
             DateApplied = new DateTimeProvider().CurrentDateTime();
             Description = job.Description;
             Title = job.Title;
@@ -25,6 +25,12 @@ namespace InCorpApp.Domain.ValueObjects
             MaxSalary = job.MaxSalary;
             SalaryStructure = job.SalaryStructure;
             StageAnswers = new List<ApplicantAnswer>();
+            City = job.City;
+        }
+
+        public AppliedJob()
+        {
+
         }
 
         public string JobPosterEmail { get; init; }
@@ -38,6 +44,7 @@ namespace InCorpApp.Domain.ValueObjects
         public decimal MaxSalary { get; init; }
         public SalaryType SalaryStructure { get; init; }
         public List<ApplicantAnswer> StageAnswers { get; set; } 
+        public string City { get; set; }
 
         public static AppliedJob Create(ApplyJobRequest request ,Job job)
         {
