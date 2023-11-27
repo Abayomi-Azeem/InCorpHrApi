@@ -32,5 +32,6 @@ namespace InCorpApp.Api.Controllers
             var response = await _sender.Send(request);
             return StatusCode((int)response.HttpStatusCode, response);
         }
+
     }
 }

@@ -15,7 +15,7 @@ namespace InCorpApp.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
-
+            services.AddMemoryCache();
             services.AddQuartz(q =>
             {
                 q.UseMicrosoftDependencyInjectionJobFactory();

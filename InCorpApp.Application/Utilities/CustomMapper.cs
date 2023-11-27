@@ -113,7 +113,8 @@ namespace InCorpApp.Application.Utilities
                     Status = job.Status,
                     JobPosterEmail = jobPosterEmail,
                     CompanyName = companyName,
-                    DateCreated = job.DateCreated
+                    DateCreated = job.DateCreated,
+                    City = job.City
                 };
             return response;
         }
