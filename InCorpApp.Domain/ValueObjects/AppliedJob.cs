@@ -26,6 +26,7 @@ namespace InCorpApp.Domain.ValueObjects
             SalaryStructure = job.SalaryStructure;
             StageAnswers = new List<ApplicantAnswer>();
             City = job.City;
+            CurrentStageId = Guid.Empty;
         }
 
         public AppliedJob()
@@ -45,6 +46,7 @@ namespace InCorpApp.Domain.ValueObjects
         public SalaryType SalaryStructure { get; init; }
         public List<ApplicantAnswer> StageAnswers { get; set; } 
         public string City { get; set; }
+        public Guid CurrentStageId { get; set; }
 
         public static AppliedJob Create(ApplyJobRequest request ,Job job)
         {
@@ -54,6 +56,11 @@ namespace InCorpApp.Domain.ValueObjects
         public void UpdateStage()
         {
             this.CurrentStageInJob += 1;
+        }
+
+        public void UpdateStage(Guid stageId)
+        {
+            this.CurrentStageId = stageId;
         }
 
         public void SubmitTest(ApplicantAnswer answer)

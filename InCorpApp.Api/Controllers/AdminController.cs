@@ -1,4 +1,6 @@
-﻿using Amazon.Runtime.Internal;
+﻿using Amazon.DynamoDBv2.Model;
+using Amazon.Runtime.Internal;
+using InCorpApp.Contracts.Admin.GetAllUsers;
 using InCorpApp.Contracts.Admin.GetUnverifiedRecruiters;
 using InCorpApp.Contracts.Admin.GetUser;
 using InCorpApp.Contracts.Admin.RemoveUser;
@@ -83,6 +85,13 @@ namespace InCorpApp.Api.Controllers
             return StatusCode((int)response.HttpStatusCode, response);
         }
 
-        //get all users
+        [HttpGet]
+        [Route("get-all-users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var request = new GetAllUsersRequest();
+            var response = await _sender.Send(request);
+            return StatusCode((int)response.HttpStatusCode, response);
+        }
     }
 }

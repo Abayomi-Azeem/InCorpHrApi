@@ -112,6 +112,8 @@ namespace InCorpApp.Application.BackgroundServices
             if (cvStagePassed)
             {
                 applicantJob.UpdateStage();
+                var nextStage = job.Stages.Where(x => x.StageNumber == applicantJob.CurrentStageInJob).First();
+                applicantJob.UpdateStage(nextStage.Id);
                 var nextLoginDate = job.GetStageEndDate(currentStage.Id).ToShortDateString();
                 _emailService.SendSuccessEmail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString(), nextLoginDate);
 
@@ -152,6 +154,8 @@ namespace InCorpApp.Application.BackgroundServices
             if (score > 0 )
             {
                 applicantJob.UpdateStage();
+                var nextStage = job.Stages.Where(x => x.StageNumber == applicantJob.CurrentStageInJob).First();
+                applicantJob.UpdateStage(nextStage.Id);
                 var nextLoginDate = job.GetStageEndDate(currentStage.Id).ToShortDateString();
                 _emailService.SendSuccessEmail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString(), nextLoginDate);
                 //move stage and send success email
@@ -187,6 +191,8 @@ namespace InCorpApp.Application.BackgroundServices
             if (score >= questions.PassMark)
             {
                 applicantJob.UpdateStage();
+                var nextStage = job.Stages.Where(x => x.StageNumber == applicantJob.CurrentStageInJob).First();
+                applicantJob.UpdateStage(nextStage.Id);
                 var nextLoginDate = job.GetStageEndDate(currentStage.Id).ToShortDateString();
                 _emailService.SendSuccessEmail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString(), nextLoginDate);
             }

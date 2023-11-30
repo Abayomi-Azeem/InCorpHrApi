@@ -52,7 +52,10 @@ namespace InCorpApp.Application.UseCases.Authentication
             {
                 return ResponseBuilder.Build<LoginResponse>(hasError: true, statusCode: System.Net.HttpStatusCode.BadRequest, actionMessage: ResponseMessages.INVALID_EMAIL_PASS);
             }
-
+            if (!user.IsVerified)
+            {
+                return ResponseBuilder.Build<LoginResponse>(hasError: true, statusCode: System.Net.HttpStatusCode.BadRequest, actionMessage: ResponseMessages.UNVERIFIED_PROFILE);
+            }
             var accessToken = _tokenGenerator.GenerateAccessToken(user);
             var refreshToken = _tokenGenerator.GenerateRefreshToken();
 

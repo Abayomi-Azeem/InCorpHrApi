@@ -1,8 +1,10 @@
 ﻿using Amazon.Auth.AccessControlPolicy;
 using Amazon.Runtime.Internal;
+using DocumentFormat.OpenXml.Office2016.Excel;
 using InCorpApp.Contracts.Applicant.CreateProfile;
 using InCorpApp.Contracts.Recruiter.CreateJob;
 using InCorpApp.Contracts.Recruiter.CreateRecruiterProfile;
+using InCorpApp.Contracts.Recruiter.GetCreatedJobs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +13,9 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace InCorpApp.Api.Controllers
 {
+    /// <summary>
+    /// Containts Endpoints Related to Actions performed by Recruiters
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "RecruiterPolicy")]
@@ -53,6 +58,20 @@ namespace InCorpApp.Api.Controllers
         {
             var signedInUserEmail = User.Claims.FirstOrDefault(x => x.Type == "Email").Value;
             request.SignedInEmail = signedInUserEmail;
+            var response = await _sender.Send(request);
+            return StatusCode((int)response.HttpStatusCode, response);
+        }
+
+        /// <summary>
+        /// Get All Jobs Created by User
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("get-created-jobs")]
+        public async Task<IActionResult> GetJobs()
+        {
+            var signedInUserEmail = User.Claims.FirstOrDefault(x => x.Type == "Email").Value;
+            var request = new GetCreatedJobsRequest { SignedInEmail = signedInUserEmail };
             var response = await _sender.Send(request);
             return StatusCode((int)response.HttpStatusCode, response);
         }

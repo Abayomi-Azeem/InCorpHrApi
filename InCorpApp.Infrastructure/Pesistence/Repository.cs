@@ -1,6 +1,8 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
+using DocumentFormat.OpenXml.Presentation;
+using DocumentFormat.OpenXml.Spreadsheet;
 using InCorpApp.Application.Abstractions.Persistence;
 using InCorpApp.Application.Utilities;
 using InCorpApp.Contracts.Admin.GetUnverifiedRecruiters;
@@ -161,6 +163,20 @@ namespace InCorpApp.Infrastructure.Pesistence
 
         }
     
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            var scanRequest = new ScanRequest
+            {
+                TableName = _tableName
+            };
+            var response = await _context.ScanAsync(scanRequest);
+            return response.Items.Select(x =>
+            {
+                var json = Document.FromAttributeMap(x).ToJson();
+                return JsonConvert.DeserializeObject<User>(json);
+            })!;
+        }
+
         public async Task<IEnumerable<UserExpiredJobs>> GetRecruitersWithExpiredJobs()
         {
             try

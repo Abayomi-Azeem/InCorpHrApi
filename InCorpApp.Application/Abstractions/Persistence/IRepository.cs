@@ -21,5 +21,6 @@ namespace InCorpApp.Application.Abstractions.Persistence
         Task<bool> UpdateAsync(User user);
         Task<IEnumerable<UserExpiredJobs>> GetRecruitersWithExpiredJobs();
         Task<IEnumerable<GetActiveJobsResponse>> GetAllUnExpiredJobs();
+        Task<IEnumerable<User>> GetAllUsers();
     }
 }
