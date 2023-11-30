@@ -1,10 +1,12 @@
 ﻿using Amazon.DynamoDBv2.Model;
 using Amazon.Runtime.Internal;
+using InCorpApp.Application.Utilities;
 using InCorpApp.Contracts.Admin.GetAllUsers;
 using InCorpApp.Contracts.Admin.GetUnverifiedRecruiters;
 using InCorpApp.Contracts.Admin.GetUser;
 using InCorpApp.Contracts.Admin.RemoveUser;
 using InCorpApp.Contracts.Admin.VerifyUser;
+using InCorpApp.Contracts.Authentication.Login;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -49,6 +51,7 @@ namespace InCorpApp.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("get-unverified-recruiters")]
+        [ProducesResponseType(typeof(ResponseWrapper<IEnumerable<GetUnverifiedRecruitersResponse>>), 200)]
         public async Task<IActionResult> GetUnverifiedRecruiters()
         {
             var response = await _sender.Send(new GetUnverifiedRecruitersRequest());
@@ -64,6 +67,7 @@ namespace InCorpApp.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("search-user")]
+        [ProducesResponseType(typeof(ResponseWrapper<IEnumerable<GetUserResponse>>), 200)]
         public async Task<IActionResult> GetUser(SearchUserBy searchParam, string value)
         {
             var request = new GetUserRequest() { SearchParam = searchParam, Value = value };
@@ -87,6 +91,7 @@ namespace InCorpApp.Api.Controllers
 
         [HttpGet]
         [Route("get-all-users")]
+        [ProducesResponseType(typeof(ResponseWrapper<List<GetAllUsersResponse>>), 200)]
         public async Task<IActionResult> GetAllUsers()
         {
             var request = new GetAllUsersRequest();

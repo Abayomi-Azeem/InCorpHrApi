@@ -1,7 +1,9 @@
 ﻿using Amazon.Auth.AccessControlPolicy;
 using Amazon.Runtime.Internal;
 using DocumentFormat.OpenXml.Office2016.Excel;
+using InCorpApp.Application.Utilities;
 using InCorpApp.Contracts.Applicant.CreateProfile;
+using InCorpApp.Contracts.Authentication.Register;
 using InCorpApp.Contracts.Recruiter.CreateJob;
 using InCorpApp.Contracts.Recruiter.CreateRecruiterProfile;
 using InCorpApp.Contracts.Recruiter.GetCreatedJobs;
@@ -68,6 +70,7 @@ namespace InCorpApp.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("get-created-jobs")]
+        [ProducesResponseType(typeof(ResponseWrapper<List<GetCreatedJobsResponse>>), 200)]
         public async Task<IActionResult> GetJobs()
         {
             var signedInUserEmail = User.Claims.FirstOrDefault(x => x.Type == "Email").Value;

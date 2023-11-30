@@ -116,6 +116,7 @@ namespace InCorpApp.Api.Controllers
 
         [HttpGet]
         [Route("get-applied-jobs")]
+        [ProducesResponseType(typeof(ResponseWrapper<List<GetAppliedJobsResponse>>), 200)]
         public async Task<IActionResult> GetAppliedJobs()
         {
             var claims = User.Claims;
