@@ -16,5 +16,6 @@ namespace InCorpApp.Contracts.Common
         public const string JOB_NOTFOUND = "Job Not Found";
         public const string JOB_EXPIRED = "Cannot Apply for Expired Job";
         public const string UNVERIFIED_PROFILE = "Unverified Profiles cannot log in.";
+        public const string PREVIOUS_SUBMISSION_FOUND = "You cannot submit a test more than once";
     }
 }

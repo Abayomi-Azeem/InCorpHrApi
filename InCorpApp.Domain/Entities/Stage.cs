@@ -23,6 +23,7 @@ namespace InCorpApp.Domain.Entities
             NoOfDaysInStage = request.NoOfDaysInStage;
             StageInfo = request.StageProperties;
             StageNumber = request.StageNumber;
+            StageStatus = JobStageStatus.Pending;
         }
 
         public StageType StageType { get; init; }
@@ -30,6 +31,7 @@ namespace InCorpApp.Domain.Entities
         public double NoOfDaysInStage { get; set; }
         public string StageInfo { get; set; }
         public int StageNumber { get; set; }
+        public JobStageStatus StageStatus { get; set; }
 
         public static Stage CreateStage(RequestStage request)
         {
@@ -39,6 +41,11 @@ namespace InCorpApp.Domain.Entities
         public void UpdateStageNumber(int number)
         {
             this.StageNumber = number;
+        }
+
+        public void UpdateJobStageStatus(JobStageStatus status)
+        {
+            this.StageStatus = status;
         }
     }
 

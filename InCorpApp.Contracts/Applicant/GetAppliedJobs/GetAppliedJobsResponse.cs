@@ -1,6 +1,7 @@
 ﻿using InCorpApp.Contracts.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,5 +22,6 @@ namespace InCorpApp.Contracts.Applicant.GetAppliedJobs
         public SalaryType SalaryStructure { get; set; }
         public string City { get; set; }
         public Guid CurrentStageId { get; set; }
+        public JobStageStatus JobStageStatus { get; set; }
     }
 }

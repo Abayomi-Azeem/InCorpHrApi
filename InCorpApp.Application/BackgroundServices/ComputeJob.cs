@@ -114,11 +114,13 @@ namespace InCorpApp.Application.BackgroundServices
                 applicantJob.UpdateStage();
                 var nextStage = job.Stages.Where(x => x.StageNumber == applicantJob.CurrentStageInJob).First();
                 applicantJob.UpdateStage(nextStage.Id);
+                applicantJob.UpdateJobStageStatus(JobStageStatus.Passed);
                 var nextLoginDate = job.GetStageEndDate(currentStage.Id).ToShortDateString();
                 _emailService.SendSuccessEmail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString(), nextLoginDate);
 
             }
             _emailService.SendFailureMail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString());
+            applicantJob.UpdateJobStageStatus(JobStageStatus.Failed);
             return applicant;
 
         }
@@ -157,10 +159,12 @@ namespace InCorpApp.Application.BackgroundServices
                 var nextStage = job.Stages.Where(x => x.StageNumber == applicantJob.CurrentStageInJob).First();
                 applicantJob.UpdateStage(nextStage.Id);
                 var nextLoginDate = job.GetStageEndDate(currentStage.Id).ToShortDateString();
+                applicantJob.UpdateJobStageStatus(JobStageStatus.Passed);
                 _emailService.SendSuccessEmail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString(), nextLoginDate);
                 //move stage and send success email
             }
             //send failure email
+            applicantJob.UpdateJobStageStatus(JobStageStatus.Failed);
             _emailService.SendFailureMail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString());
             return applicant;
         }
@@ -194,10 +198,12 @@ namespace InCorpApp.Application.BackgroundServices
                 var nextStage = job.Stages.Where(x => x.StageNumber == applicantJob.CurrentStageInJob).First();
                 applicantJob.UpdateStage(nextStage.Id);
                 var nextLoginDate = job.GetStageEndDate(currentStage.Id).ToShortDateString();
+                applicantJob.UpdateJobStageStatus(JobStageStatus.Passed);
                 _emailService.SendSuccessEmail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString(), nextLoginDate);
             }
             //send failure email
             _emailService.SendFailureMail(applicant.FirstName, applicant.Email, currentStage.StageType.ToString());
+            applicantJob.UpdateJobStageStatus(JobStageStatus.Failed);
             return applicant;
         }
         

@@ -27,8 +27,9 @@ namespace InCorpApp.Domain.ValueObjects
             StageAnswers = new List<ApplicantAnswer>();
             City = job.City;
             CurrentStageId = Guid.Empty;
+            JobStageStatus = JobStageStatus.Pending;
+            
         }
-
         public AppliedJob()
         {
 
@@ -47,6 +48,7 @@ namespace InCorpApp.Domain.ValueObjects
         public List<ApplicantAnswer> StageAnswers { get; set; } 
         public string City { get; set; }
         public Guid CurrentStageId { get; set; }
+        public JobStageStatus JobStageStatus { get; set; }
 
         public static AppliedJob Create(ApplyJobRequest request ,Job job)
         {
@@ -66,6 +68,11 @@ namespace InCorpApp.Domain.ValueObjects
         public void SubmitTest(ApplicantAnswer answer)
         {
             this.StageAnswers.Add(answer);
+        }
+
+        public void UpdateJobStageStatus(JobStageStatus status)
+        {
+            this.JobStageStatus = status;
         }
     }
 }

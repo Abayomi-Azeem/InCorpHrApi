@@ -1,27 +1,13 @@
-﻿using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Office.CoverPageProps;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using InCorpApp.Contracts.Admin.GetAllUsers;
+﻿using InCorpApp.Contracts.Admin.GetAllUsers;
 using InCorpApp.Contracts.Admin.GetUnverifiedRecruiters;
 using InCorpApp.Contracts.Admin.GetUser;
 using InCorpApp.Contracts.Applicant.GetActiveJobs;
 using InCorpApp.Contracts.Applicant.GetAppliedJobs;
 using InCorpApp.Contracts.Applicant.GetTestQuestions;
 using InCorpApp.Contracts.Authentication.Login;
-using InCorpApp.Contracts.Enums;
-using InCorpApp.Contracts.Recruiter.CreateJob;
 using InCorpApp.Contracts.Recruiter.GetCreatedJobs;
 using InCorpApp.Domain.Entities;
-using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Stage = InCorpApp.Domain.Entities.Stage;
 
 namespace InCorpApp.Application.Utilities
@@ -210,7 +196,8 @@ namespace InCorpApp.Application.Utilities
                    MaxSalary = job.MaxSalary,
                    SalaryStructure = job.SalaryStructure,
                    City = job.City,
-                   CurrentStageId = job.CurrentStageId
+                   CurrentStageId = job.CurrentStageId,
+                   JobStageStatus = job.JobStageStatus,
                 };
                 response.Add(createdjob);
             }

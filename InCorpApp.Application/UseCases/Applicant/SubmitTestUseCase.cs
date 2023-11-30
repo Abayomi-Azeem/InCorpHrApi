@@ -56,8 +56,13 @@ namespace InCorpApp.Application.UseCases.Applicant
             {
                 return ResponseBuilder.Build<SubmitTestResponse>(null, System.Net.HttpStatusCode.NotFound, true, ResponseMessages.JOB_NOTFOUND);
             }
-            var answer = ApplicantAnswer.Create(request);
             var appliedJob = user.JobsApplied.Where(x => x.JobId == request.JobId).First();
+            var previousSubmission = appliedJob.StageAnswers.Where(x => x.StageId == request.StageId).FirstOrDefault();
+            if (previousSubmission is not null)
+            {
+                return ResponseBuilder.Build<SubmitTestResponse>(null, System.Net.HttpStatusCode.NotFound, true, ResponseMessages.JOB_NOTFOUND);
+            }
+            var answer = ApplicantAnswer.Create(request);
             appliedJob.SubmitTest(answer);
             await _repository.UpdateAsync(user);
             return ResponseBuilder.Build<SubmitTestResponse>();
