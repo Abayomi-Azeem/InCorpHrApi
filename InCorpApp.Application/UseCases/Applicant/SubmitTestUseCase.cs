@@ -39,12 +39,12 @@ namespace InCorpApp.Application.UseCases.Applicant
             var user = await _repository.GetById(request.SignedInEmail);
             if (user is null)
             {
-                return ResponseBuilder.Build<SubmitTestResponse>(null, System.Net.HttpStatusCode.NotFound, true, ResponseMessages.JOB_NOTFOUND);
+                return ResponseBuilder.Build<SubmitTestResponse>(null, System.Net.HttpStatusCode.NotFound, true, ResponseMessages.NOT_FOUND);
             }
             var poster = await _repository.GetById(request.JobPosterEmail);
-            if (poster is null || poster.JobsCreated.Count > 0)
+            if (poster is null || poster.JobsCreated.Count == 0)
             {
-                return ResponseBuilder.Build<SubmitTestResponse>(null, System.Net.HttpStatusCode.NotFound, true, ResponseMessages.JOB_NOTFOUND);
+                return ResponseBuilder.Build<SubmitTestResponse>(null, System.Net.HttpStatusCode.NotFound, true, ResponseMessages.NOT_FOUND);
             }
             var job = poster.JobsCreated!.Where(x => x.Id == request.JobId).FirstOrDefault();
             if (job is null)
@@ -60,7 +60,7 @@ namespace InCorpApp.Application.UseCases.Applicant
             var previousSubmission = appliedJob.StageAnswers.Where(x => x.StageId == request.StageId).FirstOrDefault();
             if (previousSubmission is not null)
             {
-                return ResponseBuilder.Build<SubmitTestResponse>(null, System.Net.HttpStatusCode.NotFound, true, ResponseMessages.JOB_NOTFOUND);
+                return ResponseBuilder.Build<SubmitTestResponse>(null, System.Net.HttpStatusCode.BadRequest, true, ResponseMessages.PREVIOUS_SUBMISSION_FOUND);
             }
             var answer = ApplicantAnswer.Create(request);
             appliedJob.SubmitTest(answer);
